@@ -12,30 +12,81 @@ interface Props {
   onChange: (partial: Partial<FilterValue>) => void
 }
 
-const LANGUAGES = ['', 'russian', 'english', 'spanish', 'german', 'french']
-const TAGS = ['', 'pop', 'rock', 'jazz', 'classical', 'talk', 'news']
+interface Chip { value: string; label: string }
+
+const LANGUAGES: Chip[] = [
+  { value: 'russian', label: 'Русский' },
+  { value: 'english', label: 'English' },
+  { value: 'spanish', label: 'Español' },
+  { value: 'german', label: 'Deutsch' },
+  { value: 'french', label: 'Français' }
+]
+
+const TAGS: Chip[] = [
+  { value: 'pop', label: 'Pop' },
+  { value: 'rock', label: 'Rock' },
+  { value: 'jazz', label: 'Jazz' },
+  { value: 'classical', label: 'Classical' },
+  { value: 'talk', label: 'Talk' },
+  { value: 'news', label: 'News' }
+]
+
+function ChipRow({
+  label,
+  selected,
+  options,
+  onSelect
+}: {
+  label: string
+  selected: string
+  options: Chip[]
+  onSelect: (value: string) => void
+}) {
+  return (
+    <div className="chips" role="group" aria-label={label}>
+      <button
+        type="button"
+        className="chip"
+        data-active={selected === ''}
+        aria-pressed={selected === ''}
+        onClick={() => onSelect('')}
+      >
+        {ru.filters.all}
+      </button>
+      {options.map((opt) => (
+        <button
+          key={opt.value}
+          type="button"
+          className="chip"
+          data-active={selected === opt.value}
+          aria-pressed={selected === opt.value}
+          onClick={() => onSelect(selected === opt.value ? '' : opt.value)}
+        >
+          {opt.label}
+        </button>
+      ))}
+    </div>
+  )
+}
 
 export function Filters({ value, onChange }: Props) {
   return (
     <div className="filters">
-      <input
-        type="search"
-        placeholder={ru.search.placeholder}
-        value={value.name}
-        onChange={(e) => onChange({ name: e.target.value })}
-      />
-      <label>
-        {ru.filters.language}
-        <select value={value.language} onChange={(e) => onChange({ language: e.target.value })}>
-          {LANGUAGES.map((l) => <option key={l} value={l}>{l || ru.filters.all}</option>)}
-        </select>
-      </label>
-      <label>
-        {ru.filters.tag}
-        <select value={value.tag} onChange={(e) => onChange({ tag: e.target.value })}>
-          {TAGS.map((t) => <option key={t} value={t}>{t || ru.filters.all}</option>)}
-        </select>
-      </label>
+      <div className="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.2-3.2" />
+        </svg>
+        <input
+          type="search"
+          placeholder={ru.search.placeholder}
+          value={value.name}
+          onChange={(e) => onChange({ name: e.target.value })}
+        />
+      </div>
+
+      <ChipRow label={ru.filters.language} selected={value.language} options={LANGUAGES} onSelect={(v) => onChange({ language: v })} />
+      <ChipRow label={ru.filters.tag} selected={value.tag} options={TAGS} onSelect={(v) => onChange({ tag: v })} />
     </div>
   )
 }

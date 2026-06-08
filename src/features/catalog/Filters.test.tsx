@@ -1,10 +1,10 @@
 import { it, expect, vi } from 'vitest'
 import { useState } from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Filters, type FilterValue } from './Filters'
 
-/** Stateful-обёртка: контролируемый инпут должен реально накапливать ввод. */
+/** Stateful-обёртка: контролируемые поля должны реально обновляться. */
 function Harness({ onChange }: { onChange: (v: Partial<FilterValue>) => void }) {
   const [value, setValue] = useState<FilterValue>({ name: '', country: '', language: '', tag: '' })
   return (
@@ -25,9 +25,21 @@ it('сообщает изменение текста поиска', async () => 
   expect(onChange).toHaveBeenLastCalledWith({ name: 'jazz' })
 })
 
-it('сообщает выбор языка', async () => {
+it('сообщает выбор языка по чипу', async () => {
   const onChange = vi.fn()
   render(<Harness onChange={onChange} />)
-  await userEvent.selectOptions(screen.getByLabelText(/язык/i), 'russian')
+  const group = screen.getByRole('group', { name: /язык/i })
+  await userEvent.click(within(group).getByRole('button', { name: 'Русский' }))
   expect(onChange).toHaveBeenLastCalledWith({ language: 'russian' })
+})
+
+it('повторный клик по активному чипу сбрасывает фильтр', async () => {
+  const onChange = vi.fn()
+  render(<Harness onChange={onChange} />)
+  const group = screen.getByRole('group', { name: /жанр/i })
+  const jazz = within(group).getByRole('button', { name: 'Jazz' })
+  await userEvent.click(jazz)
+  expect(onChange).toHaveBeenLastCalledWith({ tag: 'jazz' })
+  await userEvent.click(jazz)
+  expect(onChange).toHaveBeenLastCalledWith({ tag: '' })
 })
