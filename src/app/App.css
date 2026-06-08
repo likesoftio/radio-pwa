@@ -1,0 +1,24 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; }
+.app { display: flex; flex-direction: column; min-height: 100dvh; }
+.tabs { display: flex; gap: 8px; padding: 12px; position: sticky; top: 0; background: #0f172a; }
+.tabs button { flex: 1; padding: 10px; border: 0; border-radius: 10px; background: #1e293b; color: inherit; font-size: 15px; }
+.tabs button[aria-pressed='true'] { background: #2563eb; }
+.content { flex: 1; padding: 0 12px 96px; overflow-y: auto; }
+.filters { display: grid; gap: 8px; padding: 8px 0; position: sticky; top: 56px; background: #0f172a; }
+.filters input, .filters select { padding: 10px; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: inherit; }
+.filters label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: #94a3b8; }
+.station-list { display: flex; flex-direction: column; gap: 8px; }
+.station-card { display: flex; align-items: center; gap: 12px; padding: 10px; background: #1e293b; border-radius: 12px; }
+.station-card[data-current='true'] { outline: 2px solid #2563eb; }
+.station-card img, .station-card__placeholder { width: 40px; height: 40px; border-radius: 8px; background: #334155; flex: none; object-fit: cover; }
+.station-card__meta { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.station-card__name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.station-card__sub { font-size: 12px; color: #94a3b8; }
+.station-card button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: #334155; color: inherit; font-size: 16px; flex: none; }
+.player-bar { position: fixed; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 12px; padding: 12px env(safe-area-inset-right, 12px) calc(12px + env(safe-area-inset-bottom)) 12px; background: #1e293b; border-top: 1px solid #334155; }
+.player-bar__meta { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.player-bar__name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.player-bar__sub { font-size: 12px; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.player-bar button { width: 48px; height: 48px; border: 0; border-radius: 50%; background: #2563eb; color: white; font-size: 18px; flex: none; }
+.status, .empty { padding: 24px 8px; text-align: center; color: #94a3b8; }

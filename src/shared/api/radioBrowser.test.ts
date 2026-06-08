@@ -28,7 +28,7 @@ describe('resolveBaseUrl', () => {
 
 describe('createClient.searchStations', () => {
   it('строит URL с фильтрами и возвращает станции', async () => {
-    const fetchFn = vi.fn(async () =>
+    const fetchFn = vi.fn(async (_url: string) =>
       new Response(JSON.stringify([{ stationuuid: '1', name: 'Эхо', url: '', url_resolved: 'http://s/1', favicon: '', country: 'Russia', countrycode: 'RU', language: 'russian', tags: 'talk', codec: 'MP3', bitrate: 128 }]), { status: 200 })
     )
     const client = createClient('https://de1.api.radio-browser.info', fetchFn as unknown as typeof fetch)
