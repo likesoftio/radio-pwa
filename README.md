@@ -2,6 +2,12 @@
 
 Мобильное устанавливаемое онлайн-радио на каталоге radio-browser.info. Полностью клиентское, без бэкенда.
 
+**Живой сайт:** https://likesoftio.github.io/radio-pwa/
+
+## Деплой
+
+GitHub Pages через GitHub Actions (`.github/workflows/deploy.yml`): любой push в `main` собирает и публикует `dist/`. Прод-сборка обслуживается из подпути `/radio-pwa/` (`base` в `vite.config.ts`).
+
 ## Разработка
 - `pnpm install`
 - `pnpm dev` — дев-сервер
